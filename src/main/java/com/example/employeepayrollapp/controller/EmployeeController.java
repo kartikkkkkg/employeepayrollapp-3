@@ -21,8 +21,8 @@ public class EmployeeController {
     @PostMapping("/create")
     public ResponseEntity<Employee> createEmployee(@RequestBody EmployeeDTO employeeDTO) {
         log.info("Request received to create employee: {}", employeeDTO);
-        Employee emp = employeeService.createEmployee(employeeDTO);
-        return ResponseEntity.ok(emp);
+        Employee savedEmployee = employeeService.createEmployee(employeeDTO);
+        return ResponseEntity.ok(savedEmployee);
     }
 
     @GetMapping("/get/{id}")
@@ -35,15 +35,15 @@ public class EmployeeController {
     @GetMapping("/getall")
     public ResponseEntity<List<Employee>> getAllEmployees() {
         log.info("Fetching all employees");
-        List<Employee> employees = employeeService.getAllEmployees();
-        return ResponseEntity.ok(employees);
+        List<Employee> employeeList = employeeService.getAllEmployees();
+        return ResponseEntity.ok(employeeList);
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Employee> updateEmployee(@PathVariable int id, @RequestBody EmployeeDTO employeeDTO) {
         log.info("Updating employee with ID: {} using data: {}", id, employeeDTO);
-        Employee updated = employeeService.updateEmployee(id, employeeDTO);
-        return ResponseEntity.ok(updated);
+        Employee updatedEmployee = employeeService.updateEmployee(id, employeeDTO);
+        return ResponseEntity.ok(updatedEmployee);
     }
 
     @DeleteMapping("/delete/{id}")
