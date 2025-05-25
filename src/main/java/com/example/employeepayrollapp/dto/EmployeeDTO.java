@@ -1,17 +1,15 @@
 package com.example.employeepayrollapp.dto;
 
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-
-
-// IN LOMBOK we can remove it so that it generates on its own!!! 
-@Data                       // Generates getters, setters, toString(), equals(), hashCode()
-@NoArgsConstructor          // Generates no-arg constructor
-@AllArgsConstructor         // Generates all-args constructor
+@Data
 public class EmployeeDTO {
+    
+    @NotBlank(message = "Name cannot be blank")
     private String name;
+
+    @Min(value = 1000, message = "Salary must be greater than 1000")
     private long salary;
 }
-

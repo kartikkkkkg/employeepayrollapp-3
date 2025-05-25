@@ -3,8 +3,8 @@ package com.example.employeepayrollapp.controller;
 import com.example.employeepayrollapp.dto.EmployeeDTO;
 import com.example.employeepayrollapp.model.Employee;
 import com.example.employeepayrollapp.service.IEmployeeService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +19,7 @@ public class EmployeeController {
     private IEmployeeService employeeService;
 
     @PostMapping("/create")
-    public Employee createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+    public Employee createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
         log.info("Request received to create employee: {}", employeeDTO);
         return employeeService.createEmployee(employeeDTO);
     }
@@ -37,7 +37,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/update/{id}")
-    public Employee updateEmployee(@PathVariable int id, @RequestBody EmployeeDTO employeeDTO) {
+    public Employee updateEmployee(@PathVariable int id, @Valid @RequestBody EmployeeDTO employeeDTO) {
         log.info("Updating employee with ID: {} using data: {}", id, employeeDTO);
         return employeeService.updateEmployee(id, employeeDTO);
     }
