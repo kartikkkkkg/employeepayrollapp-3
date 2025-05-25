@@ -3,9 +3,9 @@ package com.example.employeepayrollapp.controller;
 import com.example.employeepayrollapp.dto.EmployeeDTO;
 import com.example.employeepayrollapp.model.Employee;
 import com.example.employeepayrollapp.service.IEmployeeService;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,33 +19,37 @@ public class EmployeeController {
     private IEmployeeService employeeService;
 
     @PostMapping("/create")
-    public Employee createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<Employee> createEmployee(@RequestBody EmployeeDTO employeeDTO) {
         log.info("Request received to create employee: {}", employeeDTO);
-        return employeeService.createEmployee(employeeDTO);
+        Employee emp = employeeService.createEmployee(employeeDTO);
+        return ResponseEntity.ok(emp);
     }
 
     @GetMapping("/get/{id}")
-    public Employee getEmployee(@PathVariable int id) {
+    public ResponseEntity<Employee> getEmployee(@PathVariable int id) {
         log.info("Fetching employee with ID: {}", id);
-        return employeeService.getEmployeeById(id);
+        Employee emp = employeeService.getEmployeeById(id);
+        return ResponseEntity.ok(emp);
     }
 
     @GetMapping("/getall")
-    public List<Employee> getAllEmployees() {
+    public ResponseEntity<List<Employee>> getAllEmployees() {
         log.info("Fetching all employees");
-        return employeeService.getAllEmployees();
+        List<Employee> employees = employeeService.getAllEmployees();
+        return ResponseEntity.ok(employees);
     }
 
     @PutMapping("/update/{id}")
-    public Employee updateEmployee(@PathVariable int id, @Valid @RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<Employee> updateEmployee(@PathVariable int id, @RequestBody EmployeeDTO employeeDTO) {
         log.info("Updating employee with ID: {} using data: {}", id, employeeDTO);
-        return employeeService.updateEmployee(id, employeeDTO);
+        Employee updated = employeeService.updateEmployee(id, employeeDTO);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteEmployee(@PathVariable int id) {
+    public ResponseEntity<String> deleteEmployee(@PathVariable int id) {
         log.info("Deleting employee with ID: {}", id);
         employeeService.deleteEmployee(id);
-        return "Employee deleted successfully.";
+        return ResponseEntity.ok("Employee deleted successfully.");
     }
 }
