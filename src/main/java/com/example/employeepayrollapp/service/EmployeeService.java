@@ -2,20 +2,25 @@ package com.example.employeepayrollapp.service;
 
 import com.example.employeepayrollapp.dto.EmployeeDTO;
 import com.example.employeepayrollapp.model.Employee;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
+@Slf4j
 @Service
 public class EmployeeService implements IEmployeeService {
 
-    private List<Employee> employeeList = new ArrayList<>();
+    private final List<Employee> employeeList = new ArrayList<>();
     private int counter = 1;
 
     @Override
     public Employee createEmployee(EmployeeDTO employeeDTO) {
+        log.debug("Inside createEmployee()");
         Employee emp = new Employee(counter++, employeeDTO.getName(), employeeDTO.getSalary());
         employeeList.add(emp);
+        log.info("Employee created: {}", emp);
         return emp;
     }
 
@@ -38,6 +43,7 @@ public class EmployeeService implements IEmployeeService {
         if (emp != null) {
             emp.setName(employeeDTO.getName());
             emp.setSalary(employeeDTO.getSalary());
+            log.info("Employee updated: {}", emp);
         }
         return emp;
     }
@@ -45,5 +51,6 @@ public class EmployeeService implements IEmployeeService {
     @Override
     public void deleteEmployee(int id) {
         employeeList.removeIf(emp -> emp.getId() == id);
+        log.info("Deleted employee with ID: {}", id);
     }
 }
